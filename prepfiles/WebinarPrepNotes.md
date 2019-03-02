@@ -1,4 +1,4 @@
-(c) 2019 David Gee All Rights Reserved
+© 2019 David Gee All Rights Reserved
 
 ## Webinar Content
 
