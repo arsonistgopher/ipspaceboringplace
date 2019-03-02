@@ -1,0 +1,16 @@
+Title: L3VPN Automation Pipeline 
+Orchestrator->>Sales: Get xxxnyyynzzz ID
+TDA->>Orchestrator: Do ETL on data
+Orchestrator->SOT: Get batch of variables
+SOT->Orchestrator: Transform to tool style
+Sales-->Orchestrator: Here's your damn detail
+Orchestrator->Git: Clone L3VPNAssets repository & renmame to xxxyyynzzz
+Git->Orchestrator:
+Orchestrator->>Scheduler: Submit task with time/data
+Note over Scheduler: Run job on Orchestrator
+Scheduler-> Orchestrator: Run job xxxnyyynzzz
+Note over Orchestrator: Work it baby
+Orchestrator --> Scheduler: Exit(conditions)
+Scheduler-->Orchestrator: Job complete or error
+Note over Orchestrator: Send customer info
+Note over Orchestrator: Send engineer info

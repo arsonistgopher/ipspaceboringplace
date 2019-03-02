@@ -1,0 +1,60 @@
+// {type: activity}
+
+// ## IPEngineer ISP L3VPN Provisioning Process: Revised
+// *Used as example process for training material*
+
+// 1.  Get customer, order and site reference from sales in pattern: `xxxnyyynzzz` per engineering specs. (Entry)
+
+// 2.  Extract data from TDA spreadsheets and place into format directly usable by pipeline driving tools (run immediately) (parallel: 3)
+
+// 3.  Extract data for service variables and place into format directly usable by pipelines driving tools (run immediately) (parallel: 2)
+//     - Get /30 for PE, assign lowest to PE and highest to customer CPE
+//     - Get RD and RT
+//     - Get loopback address for VRF
+//     - Use ID as descriptions for interfaces and VRF creation
+//     - Clone current version of service assets (templates etc) and put into directory, ID named
+
+// 4.  Job scheduled on business needs: cron, human, centrally orchestrated; Pipeline server has to offer "easy" mechanism to deploy and detect errors. (depends_on: 3)
+//     - Requires input from change board
+//     - Can only be scheduled when assets are built and all assets have been tested for collisions on production network
+
+// 5.  Deploy! Run deployment logic against variables. (depends_on: 4)
+
+// 6.  Test (independent)
+//     - Get all loopback addresses from the DB with customer ID $bob
+//     - Get all transit interface prefixes from the DB with customer ID $bob
+//     - Ping all loopbacks and report on pass/fail
+//     - Ping all transit prefix highest IP addresses (customer) and report on pass/fail
+
+
+// 7.  Email sales with customer information, email engineering with POP information. (depends_on: 6)
+
+// 8.  Congratulations! Have a nice day. 
+
+
+(Start) -> (Get customer ID/Order/Site info)
+(Get customer ID/Order/Site info) -> |b|
+(Get customer ID/Order/Site info) -> (note: CUIDSID)
+(Start) -> (ETL data from TDA excel) -> |a|
+|a| -> (Get /30 for PE) -> (Allocate lowest IP for PE)
+(Get /30 for PE) -> (Allocate highest IP for CPE)
+|a| -> (Get RD) -> |b|
+|a| -> (Get RR) -> |b|
+|a| -> (Get Loopback Address) -> |b|
+|a| -> (Get Loopback Unit) -> |b|
+|b| -> (Store formatted data deployment repo)
+
+
+(Start) -> (Clone repo for L3VPN Process) -> (Store formatted data deployment repo) -> (Rename repo to CUIDSID)
+
+(Rename repo to CUIDSID) -> (Schedule Job)
+(Schedule Job) -> <d> -[Yes] -> (Deploy)
+<d> -> (note: Change Window)
+<d> -[No] -> (Wait) -> <d>
+
+(Deploy) -> (Test) -> (note: Ping Loopback on other PE same RT\nPing customer CPE\nCheck customer CPE ARP)
+(Deploy) -> (Email sales with customer information)
+(Deploy) -> (Email engineer with PE information)
+// Here
+// (Pipeline runs Push PBs) -> <f> -> [Push success] -> (.Remove Credentials) -> (ChatBot Finished)
+// (Pipeline runs Push PBs) -> <f> -> [Push fail] -> (Remove Credentials) -> (ChatBot Error)
