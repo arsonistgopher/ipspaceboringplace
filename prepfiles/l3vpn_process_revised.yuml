@@ -1,4 +1,5 @@
 // {type: activity}
+// {generate: true}
 
 // ## IPEngineer ISP L3VPN Provisioning Process: Revised
 // *Used as example process for training material*
@@ -29,7 +30,7 @@
 
 // 7.  Email sales with customer information, email engineering with POP information. (depends_on: 6)
 
-// 8.  Congratulations! Have a nice day. 
+// 8.  Congratulations! Have a nice day.
 
 
 (Start) -> (Get customer ID/Order/Site info)
